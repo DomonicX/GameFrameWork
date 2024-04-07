@@ -1,0 +1,89 @@
+#ifndef LMATHS_H
+#define LMATHS_H
+
+#include <SDL2/SDL.h>
+#include <Vector2D.h>
+#include <iostream>
+#include <string.h>
+#include <sstream>
+#include <vector>
+
+
+   typedef  enum
+    {
+        NW, N, NE,
+        W, M, E,
+        SW, S, SE,
+    }  cardinal_Directions;
+
+
+static SDL_Rect alignToTilePosition(int x,int y,int TileSize)
+{
+    return  {(x-(x%TileSize)),(y-(y%TileSize)),TileSize,TileSize};
+}
+
+static vec2f vecToPoint(SDL_FPoint p)
+{
+    return vec2f(p.x,p.y);
+}
+static vec2f vecToPoint(SDL_Point p)
+{
+    return vec2f(p.x,p.y);
+}
+
+static vec2f alignToVec2Position(vec2f v,float TileSize)
+{
+    return  vec2f((std::floor(v.x/TileSize)),(std::floor(v.y/TileSize)));
+}
+
+static std::vector<SDL_Rect> MakeGrid(int x = 0, int y = 0, int rows = 0,int columns = 0,int TileSize = 0)
+{
+    std::vector<SDL_Rect> r;
+    int TotalRowSize = rows*TileSize;
+    int TotalColumnSize = columns*TileSize;
+
+    for(int i = 0 ; i < columns; i++)
+        for(int j = 0 ; j < rows; j++)
+        {
+            r.push_back({j*TileSize+x,i*TileSize+y,TileSize,TileSize});
+        }
+    return r;
+}
+
+static SDL_Rect RectangleToSDLRect(Rectangle rectangle)
+{
+    return SDL_Rect({rectangle.rectTopLeft.x,
+                     rectangle.rectTopLeft.y,
+                     rectangle.rectBottomRight.x,
+                     rectangle.rectBottomRight.y});
+}
+
+/**<
+
+static std::vector<SDL_Rect> MakeGrid(int rows,int columns,int TileSize)
+{
+    std::vector<SDL_Rect> r;
+    int TotalRowSize = rows*TileSize;
+    int TotalColumnSize = columns*TileSize;
+
+    for(int i = 0 ; i < rows; i++)
+        for(int j = 0 ; j < columns; j++)
+        {
+            r.push_back({j*TileSize,i*TileSize,TileSize,TileSize});
+        }
+    return r;
+}
+ */
+
+class Lmaths
+{
+public:
+    Lmaths();
+    virtual ~Lmaths();
+
+protected:
+
+private:
+};
+
+#endif // LMATHS_H
